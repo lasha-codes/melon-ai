@@ -17,3 +17,16 @@ export const registerService = async ({
 
   return data
 }
+
+export const getUser = async () => {
+  const token = localStorage.getItem('melonai-jwt-token')
+  if (!token) return null
+
+  const { data } = await axios.get('/api/auth', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+
+  return data?.user
+}

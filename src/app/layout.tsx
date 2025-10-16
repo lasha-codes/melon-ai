@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import axios from 'axios'
+import AuthProvider from '@/context/AuthContext'
 
 const fontInter = Inter({
   variable: '--font-geist-inter',
@@ -22,7 +23,9 @@ export default function RootLayout({
 
   return (
     <html lang='en'>
-      <body className={`${fontInter.className} antialiased`}>{children}</body>
+      <AuthProvider>
+        <body className={`${fontInter.className} antialiased`}>{children}</body>
+      </AuthProvider>
     </html>
   )
 }
