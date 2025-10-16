@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
+import axios from 'axios'
 
 const fontInter = Inter({
   variable: '--font-geist-inter',
@@ -17,6 +18,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  axios.defaults.baseURL = 'http://localhost:3000'
+
   return (
     <html lang='en'>
       <body className={`${fontInter.className} antialiased`}>{children}</body>
