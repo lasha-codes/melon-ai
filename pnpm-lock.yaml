@@ -35,6 +35,9 @@ importers:
       next:
         specifier: 15.5.5
         version: 15.5.5(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      openai:
+        specifier: ^6.4.0
+        version: 6.4.0
       prisma:
         specifier: ^6.17.1
         version: 6.17.1(typescript@5.9.3)
@@ -760,6 +763,18 @@ packages:
   ohash@2.0.11:
     resolution: {integrity: sha512-RdR9FQrFwNBNXAr4GixM8YaRZRJ5PUWbKYbE5eOsrwAjJW0q2REGcf79oYPsLyskQCZG1PLN+S/K1V00joZAoQ==}
 
+  openai@6.4.0:
+    resolution: {integrity: sha512-vSoVBRTPMgg3oSaoHIGfbYM2zwGN0D4F2aiNHMeu1lZHFOwfJMAF0X110HDdedYvcsIo578ujQ11WL5kP687Cw==}
+    hasBin: true
+    peerDependencies:
+      ws: ^8.18.0
+      zod: ^3.25 || ^4.0
+    peerDependenciesMeta:
+      ws:
+        optional: true
+      zod:
+        optional: true
+
   pathe@2.0.3:
     resolution: {integrity: sha512-WUjGcAqP1gQacoQe+OBJsFA7Ld4DyXuUIjZ5cc75cLHvJ7dtNsTugphxIADwspS+AraAUePCKrSVtPLFj/F88w==}
 
@@ -1480,6 +1495,8 @@ snapshots:
       tinyexec: 1.0.1
 
   ohash@2.0.11: {}
+
+  openai@6.4.0: {}
 
   pathe@2.0.3: {}
 

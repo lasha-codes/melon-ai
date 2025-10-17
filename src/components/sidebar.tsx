@@ -1,14 +1,19 @@
+'use client'
+
 import { PiArrowLeftThin } from 'react-icons/pi'
 import { AiOutlinePlus } from 'react-icons/ai'
 import { HiOutlineMail } from 'react-icons/hi'
+import { IoIosLogOut } from 'react-icons/io'
 import Chats from './chats'
 import Link from 'next/link'
+import { useContext } from 'react'
+import { AuthContext } from '@/context/AuthContext'
 
 const AuthButtons = () => (
   <div className='w-full flex flex-col items-start gap-2'>
     <Link
       href='/login'
-      className='w-full flex items-center justify-center py-2 text-sm bg-[#292929] hover:bg-[#363636] transition-all duration-100 text-white rounded-lg'
+      className='w-full flex items-center justify-center py-2 text-sm bg-[#ffa516] hover:bg-[#f59c0d] transition-all duration-100 text-white rounded-lg'
     >
       Login
     </Link>
@@ -23,11 +28,22 @@ const AuthButtons = () => (
 )
 
 const Sidebar = () => {
+  const { auth, setAuth, loading } = useContext(AuthContext)
+
+  const logout = () => {
+    localStorage.removeItem('melonai-jwt-token')
+    setAuth(() => undefined)
+    window.location.reload()
+  }
+
   return (
-    <div className='w-[270px] bg-[#F8F7F6] h-screen flex flex-col items-center justify-between border-r border-gray-500/5 py-4 text-[#292929] z-[20]'>
-      <div className='w-full flex flex-col items-start gap-4 px-4'>
+    <div className='w-[300px] bg-[#F8F7F6] h-screen flex flex-col items-center justify-between border-r border-gray-500/5 text-[#292929] z-[20]'>
+      <div className='w-full flex flex-col items-start gap-4 px-4  py-4'>
         <div className='w-full flex items-center justify-between'>
-          <h1 className='text-lg font-semibold text-[#292929]'>Melon.AI</h1>
+          <h1 className='text-xl font-semibold bg-gradient-to-r from-[#ffa516] to-[#ff7b00] bg-clip-text text-transparent'>
+            Melon.AI
+          </h1>
+
           <button className='text-lg cursor-pointer'>
             <PiArrowLeftThin />
           </button>
@@ -47,7 +63,34 @@ const Sidebar = () => {
       </div>
 
       <div className='p-4 border-t border-gray-800/5 w-full'>
-        <AuthButtons />
+        {loading ? (
+          <div className='w-full h-full flex items-center justify-center text-xl font-semibold text-[#ffa516]'>
+            ...
+          </div>
+        ) : !auth ? (
+          <AuthButtons />
+        ) : (
+          <div className='w-full flex flex-col items-start gap-2'>
+            <div className='w-full flex items-center gap-2'>
+              <div className='text-white rounded-full text-sm min-w-[30px] max-w-[30px] h-[30px] bg-[#ffa516] flex items-center justify-center'>
+                {auth.username?.charAt(0)}
+              </div>
+
+              <div className='w-full flex flex-col items-start'>
+                <h3 className='text-[15px] font-medium'>{auth.username}</h3>
+                <h4 className='text-[12px] -mt-0.5 opacity-60'>{auth.email}</h4>
+              </div>
+            </div>
+
+            <button
+              onClick={logout}
+              className='flex justify-start items-center gap-2 bg-white text-sm rounded-lg px-6 py-1.5 cursor-pointer border border-gray-800/10 hover:border-black/20 transition-all duration-100'
+            >
+              Logout
+              <IoIosLogOut className='text-base' />
+            </button>
+          </div>
+        )}
       </div>
     </div>
   )

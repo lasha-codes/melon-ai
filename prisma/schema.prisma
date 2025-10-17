@@ -14,5 +14,32 @@ model User {
   password String
 
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+
+  chat Chat[]
+}
+
+model Chat {
+  id      String    @id @default(uuid())
+  name    String
+  user    User      @relation(fields: [userId], references: [id])
+  userId  String
+  message Message[]
+
+  createdAt DateTime @default(now())
+}
+
+model Message {
+  id     String @id @default(uuid())
+  chat   Chat   @relation(fields: [chatId], references: [id])
+  chatId String
+
+  sender  MessageSender
+  content String
+
+  createdAt DateTime @default(now())
+}
+
+enum MessageSender {
+  USER
+  AI
 }
