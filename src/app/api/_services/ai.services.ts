@@ -51,7 +51,7 @@ export const getAiResponse = async (prompt: string) => {
   })
 
   const completion = await openai.chat.completions.create({
-    model: 'google/gemma-3n-e4b-it:free',
+    model: 'openai/gpt-oss-20b:freeopenai/gpt-oss-20b:free',
     messages: [
       {
         role: 'user',
@@ -84,8 +84,33 @@ export const getChatService = async ({
           createdAt: 'desc',
         },
       },
+      user: true,
     },
   })
 
   return chat
+}
+
+export const createMessageService = async ({
+  sender,
+  content,
+  chatId,
+}: {
+  sender: 'AI' | 'USER'
+  content: string
+  chatId: string
+}) => {
+  const message = await prisma.message.create({
+    data: {
+      chat: {
+        connect: {
+          id: chatId,
+        },
+      },
+      sender,
+      content,
+    },
+  })
+
+  return message
 }

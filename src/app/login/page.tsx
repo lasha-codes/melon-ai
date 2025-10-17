@@ -112,7 +112,7 @@ const Login = () => {
             href='/signup'
             className='text-[#ffa516] font-medium hover:underline'
           >
-            Login
+            Sign up
           </a>
         </p>
       </div>
