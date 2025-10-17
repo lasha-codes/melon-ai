@@ -18,6 +18,21 @@ export const registerService = async ({
   return data
 }
 
+export const loginService = async ({
+  password,
+  email,
+}: {
+  email: string
+  password: string
+}) => {
+  const { data } = await axios.post('/api/auth/login', {
+    password,
+    email,
+  })
+
+  return data
+}
+
 export const getUser = async () => {
   const token = localStorage.getItem('melonai-jwt-token')
   if (!token) return null

@@ -25,6 +25,28 @@ export const registerUserService = async ({
   return user
 }
 
+export const loginUserService = async ({
+  email,
+  password,
+}: {
+  email: string
+  password: string
+}) => {
+  const user = await prisma.user.findUnique({
+    where: {
+      email,
+    },
+  })
+
+  const passwordMatches = bcrypt.compareSync(password, user!.password)
+
+  if (!passwordMatches) {
+    return { message: 'Incorrect password provided.', user: null }
+  }
+
+  return { user, message: null }
+}
+
 export const getUserService = async (token: string) => {
   const { id, email } = jwt.verify(token, process.env.JWT_SECRET!) as JwtValues
 

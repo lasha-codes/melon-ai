@@ -5,16 +5,15 @@ import Image from 'next/image'
 import { Input } from '@/components/ui/input'
 import ButtonLoader from '@/components/ui/button-loader'
 import logo from '../../../public/logo.webp'
-import { registerService } from '@/services/auth'
+import { loginService } from '@/services/auth'
 import { AuthContext } from '@/context/AuthContext'
 
-const Signup = () => {
+const Login = () => {
   const { setAuth } = useContext(AuthContext)
 
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
   const [form, setForm] = useState({
-    username: '',
     email: '',
     password: '',
   })
@@ -28,7 +27,7 @@ const Signup = () => {
     try {
       setLoading(true)
 
-      const data = await registerService(form)
+      const data = await loginService(form)
 
       if (data?.message) {
         setLoading(false)
@@ -37,7 +36,6 @@ const Signup = () => {
 
       localStorage.setItem('melonai-jwt-token', data.token)
       setForm({
-        username: '',
         email: '',
         password: '',
       })
@@ -68,11 +66,9 @@ const Signup = () => {
         </div>
 
         <div className='w-full text-center'>
-          <h3 className='text-xl font-semibold text-gray-800'>
-            Create your account
-          </h3>
+          <h3 className='text-xl font-semibold text-gray-800'>Hello again!</h3>
           <p className='text-sm text-gray-500 mt-1'>
-            Sign up to get started with Melon.AI
+            Login to get started with Melon.AI
           </p>
         </div>
 
@@ -80,15 +76,6 @@ const Signup = () => {
           onSubmit={handleSubmit}
           className='w-full flex flex-col gap-4 mt-2'
         >
-          <Input
-            type='text'
-            name='username'
-            placeholder='Username'
-            value={form.username}
-            onChange={handleChange}
-            required
-            className='h-11 rounded-lg focus-visible:ring-[#ffa516]'
-          />
           <Input
             type='email'
             name='email'
@@ -115,17 +102,17 @@ const Signup = () => {
             disabled={loading}
             className='mt-2 w-full h-11 flex items-center justify-center bg-[#ffa516] hover:bg-[#f59c0d] text-white rounded-lg text-sm font-medium transition-all duration-150 disabled:opacity-70 disabled:cursor-not-allowed shadow-sm'
           >
-            {loading ? <ButtonLoader /> : 'Sign up'}
+            {loading ? <ButtonLoader /> : 'Login'}
           </button>
         </form>
 
         <p className='text-sm text-gray-500 mt-3'>
-          Already have an account?{' '}
+          Don't have an account?{' '}
           <a
-            href='/login'
+            href='/signup'
             className='text-[#ffa516] font-medium hover:underline'
           >
-            Log in
+            Login
           </a>
         </p>
       </div>
@@ -133,4 +120,4 @@ const Signup = () => {
   )
 }
 
-export default Signup
+export default Login

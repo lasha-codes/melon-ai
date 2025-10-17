@@ -24,7 +24,7 @@ const AuthButtons = () => (
 
 const Sidebar = () => {
   return (
-    <div className='w-[270px] bg-[#F8F7F6] h-screen flex flex-col items-center justify-between border-r border-gray-500/5 py-4 text-[#292929]'>
+    <div className='w-[270px] bg-[#F8F7F6] h-screen flex flex-col items-center justify-between border-r border-gray-500/5 py-4 text-[#292929] z-[20]'>
       <div className='w-full flex flex-col items-start gap-4 px-4'>
         <div className='w-full flex items-center justify-between'>
           <h1 className='text-lg font-semibold text-[#292929]'>Melon.AI</h1>
