@@ -34,7 +34,7 @@ const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
     { name: string; id: string; createdAt: Date }[]
   >([])
   const [chatsLoading, setChatsLoading] = useState<boolean>(true)
-  const [sidebarOpen, setSidebarOpen] = useState<boolean>(false)
+  const [sidebarOpen, setSidebarOpen] = useState<boolean>(true)
 
   useEffect(() => {
     getAiChatsService().then((chatsResponse) => {

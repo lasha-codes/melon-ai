@@ -6,9 +6,10 @@ import { HiOutlineMail } from 'react-icons/hi'
 import { IoIosLogOut, IoMdArrowForward } from 'react-icons/io'
 import Chats from './chats'
 import Link from 'next/link'
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '@/context/AuthContext'
 import { GlobalContext } from '@/context/GlobalContext'
+import { useSearchParams } from 'next/navigation'
 
 const AuthButtons = () => (
   <div className='w-full flex flex-col items-start gap-2'>
@@ -29,8 +30,11 @@ const AuthButtons = () => (
 )
 
 const Sidebar = () => {
+  const searchParams = useSearchParams()
   const { auth, setAuth, loading } = useContext(AuthContext)
   const { chats, sidebarOpen, setSidebarOpen } = useContext(GlobalContext)
+  const [autoClosedSidebarMobile, setAutoClosedSidebarMobile] =
+    useState<boolean>(false)
 
   const logout = () => {
     localStorage.removeItem('melonai-jwt-token')
@@ -38,21 +42,45 @@ const Sidebar = () => {
     window.location.reload()
   }
 
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth
+
+      if (width <= 768) {
+        if (sidebarOpen && !autoClosedSidebarMobile) {
+          setSidebarOpen(false)
+          setAutoClosedSidebarMobile(true)
+        }
+      }
+    }
+
+    window.addEventListener('resize', handleResize)
+
+    return window.removeEventListener('resize', handleResize)
+  }, [])
+
+  useEffect(() => {
+    const width = window.innerWidth
+    if (width <= 768) {
+      setSidebarOpen(false)
+    }
+  }, [searchParams])
+
   return (
     <>
       {!sidebarOpen && (
         <>
-          <div className='flex justify-start h-screen pl-5 pt-5 max-md:hidden'>
+          <div className='flex justify-start h-screen pl-5 pt-5 max-md:hidden fixed top-0 left-0 z-[10]'>
             <div className='flex items-center gap-2.5 h-fit'>
               <Link
                 href='/'
-                className='h-[35px] w-[35px] border flex items-center justify-center rounded-md cursor-pointer hover:border-black/25 transition-all duration-100'
+                className='h-[35px] w-[35px] border flex items-center justify-center rounded-md cursor-pointer hover:border-black/25 transition-all duration-100 bg-white'
               >
                 <AiOutlinePlus className='text-sm' />
               </Link>
               <button
                 onClick={() => setSidebarOpen(true)}
-                className='h-[35px] w-[35px] border flex items-center justify-center rounded-md cursor-pointer hover:border-black/25 transition-all duration-100'
+                className='h-[35px] w-[35px] border flex items-center justify-center rounded-md cursor-pointer hover:border-black/25 transition-all duration-100 bg-white'
               >
                 <IoMdArrowForward className='text-sm' />
               </button>
@@ -61,7 +89,7 @@ const Sidebar = () => {
 
           <button
             onClick={() => setSidebarOpen(true)}
-            className='h-[35px] w-[35px] border items-center justify-center rounded-md cursor-pointer hover:border-black/25 transition-all duration-100 fixed z-[10] top-5 left-5 hidden max-md:flex'
+            className='h-[35px] w-[35px] border items-center justify-center rounded-md cursor-pointer hover:border-black/25 transition-all duration-100 fixed z-[10] top-5 left-5 hidden max-md:flex bg-white'
           >
             <IoMdArrowForward className='text-sm' />
           </button>
