@@ -13,15 +13,11 @@ import AiLoader from './ui/ai-loader'
 import Image from 'next/image'
 import logo from '../../public/logo.webp'
 import { Message as MessageType } from '@prisma/client'
-import { redirect } from 'next/navigation'
+import { redirect, useSearchParams } from 'next/navigation'
 import { AuthContext } from '@/context/AuthContext'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import ReactMarkdown from 'react-markdown'
-
-interface ChatPageProps {
-  chatId: string
-}
 
 interface MessageProps {
   content: string
@@ -104,7 +100,9 @@ const Message = ({
   )
 }
 
-const ChatPage = ({ chatId }: ChatPageProps) => {
+const ChatPage = () => {
+  const searchParams = useSearchParams()
+  const chatId = searchParams.get('chat-id') as string
   const { auth, loading: authLoading } = useContext(AuthContext)
   const [chat, setChat] = useState<AiChatModel | undefined>(undefined)
   const [loadingChat, setLoadingChat] = useState<boolean>(true)
