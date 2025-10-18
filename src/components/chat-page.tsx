@@ -34,7 +34,7 @@ interface MessageProps {
 
 const LoadingChat = () => {
   return (
-    <div className='w-full h-full flex items-center justify-center'>
+    <div className='w-full h-full max-md:h-screen flex items-center justify-center'>
       <h3 className='text-3xl font-bold bg-gradient-to-r from-[#ffa516] to-[#ff7b00] bg-clip-text text-transparent'>
         Loading Chat...
       </h3>
@@ -219,7 +219,7 @@ const ChatPage = ({ chatId }: ChatPageProps) => {
     <LoadingChat />
   ) : (
     <div className='w-full flex flex-col items-start gap-5 justify-start h-screen relative overflow-x-auto'>
-      <div className='w-full flex flex-col items-start gap-5 justify-start h-full overflow-auto px-[15%] py-8 max-xl:!p-8'>
+      <div className='w-full flex flex-col items-start gap-5 justify-start h-full overflow-auto px-[15%] py-8 max-xl:!p-8 max-md:!px-5 max-md:!py-5'>
         {chat?.message
           .sort(
             (a, b) =>

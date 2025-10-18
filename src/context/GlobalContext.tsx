@@ -16,6 +16,8 @@ interface ContextType {
   >
   chatsLoading: boolean
   setChatsLoading: Dispatch<SetStateAction<boolean>>
+  sidebarOpen: boolean
+  setSidebarOpen: Dispatch<SetStateAction<boolean>>
 }
 
 export const GlobalContext = createContext<ContextType>({
@@ -23,6 +25,8 @@ export const GlobalContext = createContext<ContextType>({
   setChats: () => [],
   chatsLoading: true,
   setChatsLoading: () => true,
+  sidebarOpen: true,
+  setSidebarOpen: () => true,
 })
 
 const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
@@ -30,6 +34,7 @@ const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
     { name: string; id: string; createdAt: Date }[]
   >([])
   const [chatsLoading, setChatsLoading] = useState<boolean>(true)
+  const [sidebarOpen, setSidebarOpen] = useState<boolean>(false)
 
   useEffect(() => {
     getAiChatsService().then((chatsResponse) => {
@@ -40,7 +45,14 @@ const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <GlobalContext.Provider
-      value={{ chats, setChats, chatsLoading, setChatsLoading }}
+      value={{
+        chats,
+        setChats,
+        chatsLoading,
+        setChatsLoading,
+        sidebarOpen,
+        setSidebarOpen,
+      }}
     >
       {children}
     </GlobalContext.Provider>
