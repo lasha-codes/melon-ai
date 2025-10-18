@@ -8,9 +8,11 @@ import { GoArrowUp } from 'react-icons/go'
 import ButtonLoader from './ui/button-loader'
 import { useRouter } from 'next/navigation'
 import { createAiChatService } from '@/services/ai'
+import { GlobalContext } from '@/context/GlobalContext'
 
 const Chat = () => {
   const { auth } = useContext(AuthContext)
+  const { setChats } = useContext(GlobalContext)
   const router = useRouter()
   const [prompt, setPrompt] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false)
@@ -28,6 +30,16 @@ const Chat = () => {
       const chat = await createAiChatService({ prompt, token })
 
       if (chat) {
+        setChats((prev) => {
+          return [
+            ...prev,
+            {
+              name: chat.name as string,
+              id: chat.id as string,
+              createdAt: chat.createdAt as unknown as Date,
+            },
+          ]
+        })
         router.push(`/?chat-id=${chat.id}`)
       }
 

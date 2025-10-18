@@ -114,3 +114,27 @@ export const createMessageService = async ({
 
   return message
 }
+
+export const getChatsService = async (token: string) => {
+  const { id } = jwt.verify(token, process.env.JWT_SECRET!) as JwtValues
+  if (!id) {
+    return []
+  }
+
+  const chats = await prisma.chat.findMany({
+    where: {
+      userId: id,
+    },
+    select: {
+      name: true,
+      id: true,
+      createdAt: true,
+    },
+    take: 10,
+    orderBy: {
+      createdAt: 'desc',
+    },
+  })
+
+  return chats
+}

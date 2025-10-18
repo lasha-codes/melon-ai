@@ -51,3 +51,40 @@ export const getAiResponse = async ({
 
   return data?.message as Message | undefined
 }
+
+export const getAiChatsService = async () => {
+  const token = localStorage.getItem('melonai-jwt-token')
+  if (!token) return []
+
+  const { data } = await axios.get('/api/ai/chat', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+
+  return data?.chats || []
+}
+
+export const saveUserMessageService = async ({
+  prompt,
+  chatId,
+}: {
+  prompt: string
+  chatId: string
+}) => {
+  const token = localStorage.getItem('melonai-jwt-token')
+  if (!token) return
+
+  return axios.post(
+    '/api/ai/chat/message',
+    {
+      prompt,
+      chatId,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  )
+}

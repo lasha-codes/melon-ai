@@ -8,6 +8,7 @@ import Chats from './chats'
 import Link from 'next/link'
 import { useContext } from 'react'
 import { AuthContext } from '@/context/AuthContext'
+import { GlobalContext } from '@/context/GlobalContext'
 
 const AuthButtons = () => (
   <div className='w-full flex flex-col items-start gap-2'>
@@ -29,6 +30,7 @@ const AuthButtons = () => (
 
 const Sidebar = () => {
   const { auth, setAuth, loading } = useContext(AuthContext)
+  const { chats } = useContext(GlobalContext)
 
   const logout = () => {
     localStorage.removeItem('melonai-jwt-token')
@@ -40,26 +42,31 @@ const Sidebar = () => {
     <div className='min-w-[300px] max-w-[300px] bg-[#F8F7F6] h-screen flex flex-col items-center justify-between border-r border-gray-500/5 text-[#292929] z-[20]'>
       <div className='w-full flex flex-col items-start gap-4 px-4  py-4'>
         <div className='w-full flex items-center justify-between'>
-          <h1 className='text-xl font-semibold bg-gradient-to-r from-[#ffa516] to-[#ff7b00] bg-clip-text text-transparent'>
-            Melon.AI
-          </h1>
+          <Link href='/'>
+            <h1 className='text-xl font-semibold bg-gradient-to-r from-[#ffa516] to-[#ff7b00] bg-clip-text text-transparent'>
+              Melon.AI
+            </h1>
+          </Link>
 
           <button className='text-lg cursor-pointer'>
             <PiArrowLeftThin />
           </button>
         </div>
 
-        <button className='w-full rounded-lg border border-black/10 flex items-center gap-2 hover:border-black/20 transition-all duration-100 bg-white cursor-pointer px-3 py-[7px]'>
+        <Link
+          href='/'
+          className='w-full rounded-lg border border-black/10 flex items-center gap-2 hover:border-black/20 transition-all duration-100 bg-white cursor-pointer px-3 py-[7px]'
+        >
           <AiOutlinePlus className='text-sm' />
           <span className='text-sm font-medium'>New Chat</span>
-        </button>
+        </Link>
 
         <div className='w-full flex gap-1.5 items-center opacity-90 mt-5'>
           <HiOutlineMail className='text-[17px]' />
           <span className='text-sm'>Chats</span>
         </div>
 
-        <Chats />
+        <Chats chats={chats} />
       </div>
 
       <div className='p-4 border-t border-gray-800/5 w-full'>

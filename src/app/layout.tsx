@@ -4,6 +4,7 @@ import './globals.css'
 import axios from 'axios'
 import AuthProvider from '@/context/AuthContext'
 import Protect from '@/components/protect'
+import GlobalProvider from '@/context/GlobalContext'
 
 const fontInter = Inter({
   variable: '--font-geist-inter',
@@ -26,9 +27,11 @@ export default function RootLayout({
     <html lang='en'>
       <AuthProvider>
         <Protect>
-          <body className={`${fontInter.className} antialiased`}>
-            {children}
-          </body>
+          <GlobalProvider>
+            <body className={`${fontInter.className} antialiased`}>
+              {children}
+            </body>
+          </GlobalProvider>
         </Protect>
       </AuthProvider>
     </html>
